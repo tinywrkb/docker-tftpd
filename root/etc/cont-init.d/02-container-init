@@ -1,0 +1,38 @@
+#!/usr/bin/with-contenv sh
+
+OPTS=''
+
+if [ "$IP_VERSION" = '4' ]; then
+  OPTS="$OPTS --ipv4"
+elif [ "$IP_VERSION" = '6' ]; then
+  OPTS="$OPTS --ipv6"
+fi
+if [ "$PORT" ]; then
+  OPTS="$OPTS --address :${PORT}"
+fi
+if [ "$CREATE" = '1' ]; then
+  OPTS="$OPTS --create"
+fi
+if [ "$UMASK" ]; then
+  OPTS="$OPTS --umask $UMASK"
+fi
+if [ "$RETRANSMIT" ]; then
+  OPTS="$OPTS --retransmit $RETRANSMIT"
+fi
+if [ "$MAPFILE" = '1' ]; then
+  OPTS="$OPTS --mapfile /config/mapfile"
+fi
+if [ "$VERBOSITY" ]; then
+  OPTS="$OPTS --verbosity $VERBOSITY"
+fi
+if [ "$REFUSE_RFC2347" = '1' ]; then
+  OPTS="$OPTS --refuse"
+fi
+if [ "$BLOCKSIZE" ]; then
+  OPTS="$OPTS --blocksize $BLOCKSIZE"
+fi
+if [ "$PORT_RANGE" ]; then
+  OPTS="$OPTS --port-range $PORT_RANGE"
+fi
+
+printf "$OPTS" > /var/run/s6/container_environment/OPTS

@@ -1,0 +1,28 @@
+---
+version: "3.1"
+services:
+  tftpd:
+    image: tinywrkb/tftpd:latest
+    container_name: tftpd
+    #network_mode: host
+    environment:
+      #- IP_VERSION=4
+      #- PORT=69
+      #- CREATE=1
+      #- UMASK=0000
+      #- RETRANSMIT=1000000
+      # /config/mapfile
+      #- MAPFILE=1
+      #- VERBOSITY=1
+      #- REFUSE_RFC2347=1
+      #- BLOCKSIZE=512
+      # from conf.d/tftpd: solves problems with ARC firmware, and obsoletes the /proc/sys/net/ipv4/ip_local_port_range hack
+      - PORT_RANGE=4096:32767
+    volumes:
+      # only mapfile
+      - ./config:/config
+      # volume for the root share
+      - data:/data
+    #ports:
+    #  - 69:69
+    restart: unless-stopped
